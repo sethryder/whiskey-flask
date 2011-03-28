@@ -37,12 +37,10 @@ class whiskeyFlask {
     function getDetail($resource, $id, $field_list=NULL) {
         $rawData = file_get_contents("$this->api_url/$resource/$id/?api_key=$this->api_key&field_list=$field_list&format=$this->format");
 
-        if($this->format == 'json') 
-        {
+        if($this->format == 'json') {
             $result = json_decode($rawData);
         }
-        elseif ($this->format == 'xml') 
-        {
+        elseif ($this->format == 'xml') {
             $result = simplexml_load_string($rawData);
         }
         
