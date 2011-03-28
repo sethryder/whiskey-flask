@@ -6,19 +6,17 @@
  * @version 0.01
  */
 
-class whiskeyFlask 
-{
+class whiskeyFlask {
     
     var $api_key;
     var $api_url;
     var $format;
     
-    function __construct($site, $key, $format) 
-	{
+    function __construct($site, $key, $format) {
+        
 	   $this->api_key = $key;
        
-        switch($site) 
-		{
+        switch($site) {
             case "cv":
                 $this->api_url = 'http://api.comicvine.com';
                 break;
@@ -26,8 +24,7 @@ class whiskeyFlask
                 $this->api_url = 'http://api.giantbomb.com';
         }
 
-        switch($format) 
-		{
+        switch($format) {
             case "xml":
                 $this->format = 'xml';
                 break;
@@ -37,27 +34,45 @@ class whiskeyFlask
         }
     }
         
-    function getDetail($resource, $id, $field_list) 
-	{
+    function getDetail($resource, $id, $field_list=NULL) {
         $rawData = file_get_contents("$this->api_url/$resource/$id/?api_key=$this->api_key&field_list=$field_list&format=$this->format");
 
         if($this->format == 'json') 
         {
-            $decoded = json_decode($rawData);
+            $result = json_decode($rawData);
         }
         elseif ($this->format == 'xml') 
         {
-            $decoded = simplexml_load_string($rawData);
+            $result = simplexml_load_string($rawData);
         }
         
-        return $decoded;
+        return $result;
     }
     
-    function getList($resource, $limit, $offset, $field_list) 
-    {
+    function getList($resource, $offset=0, $limit=100, $field_list=NULL) {
         $raw_data = file_get_contents("$this->api_url/$resource/?api_key=$this->api_key&offset=$offset&field_list=$field_list&format=$this->format");
-        $decoded = json_decode($raw_data);
-        return $decoded;
+        
+        if($this->format == 'json') {
+            $results = json_decode($rawData);
+        }
+        elseif ($this->format == 'xml') {
+            $results = simplexml_load_string($rawData);
+        }
+        
+        return $results;
+    }
+    
+    function search($query, $resources=NULL, $offset=0, $limit=100, $field_list=NULL) {
+        $raw_data = file_get_contents("$this->api_url/search/?api_key=$this->api_key&query=$query&offset=$offset&field_list=$field_list&format=$this->format");
+        
+        if($this->format == 'json') {
+            $results = json_decode($rawData);
+        }
+        elseif ($this->format == 'xml') {
+            $results = simplexml_load_string($rawData);
+        }
+        
+        return $results;
     }
 }
 
