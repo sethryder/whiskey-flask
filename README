@@ -1,0 +1,12 @@
+whiskey-flask
+
+Whiskey Flask is a PHP Wrapper for the Whiskey Media API.
+
+Currently works with two Whiskey Media sites that offer APIs:
+
+http://api.giantbomb.com
+http://api.comicvine.com
+
+Still under development, many things will changed and be added. 
+
+Also a proper documentation and usage examples need to be made.
