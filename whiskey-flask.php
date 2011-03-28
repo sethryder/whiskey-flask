@@ -10,9 +10,7 @@ class wmAPI
 {
     
     var $api_key;
-    var $id;
     var $api_url;
-    var $offset;
     var $format;
     
     function __construct($site, $key, $format) 
@@ -47,7 +45,7 @@ class wmAPI
 		{
             $decoded = json_decode($rawData);
         }
-		elseif ($this->format == 'xml') 
+        elseif ($this->format == 'xml') 
 		{
             $decoded = simplexml_load_string($rawData);
         }
