@@ -52,7 +52,7 @@ class whiskeyFlask {
     
     //Function used for a list resource request.
     function getList($resource, $offset=0, $limit=100, $field_list=NULL) {
-        $options = $this->buildOptions('list', array($field_list));
+        $options = $this->buildOptions(array($field_list, NULL));
         
         print_r($options);
         
@@ -70,7 +70,7 @@ class whiskeyFlask {
     
     //Function used for searching.
     function search($query, $resources=NULL, $offset=0, $limit=20, $field_list=NULL) {
-        $options = $this->buildOptions('search', array($resources,$field_list));
+        $options = $this->buildOptions(array($field_list,$resources));
         
         $rawData = file_get_contents("$this->api_url/search/?api_key=$this->api_key&query=$query&$options&offset=$offset&format=$this->format");
         
@@ -85,35 +85,20 @@ class whiskeyFlask {
     }
     
     //This function is used to build our optons for pulls when needed. Some filters do not like to be leaved blank, which is part of the reason this is required.
-    function buildOptions($resource, $options) {        
-        switch($resource) {
-            case "search":
-                if ($options[0] == NULL) {    
-                    $rOptions = '';
-                } else {
-                    $rOptions = "resources=$options[0]&";
-                }
-                if ($options[1] == NULL) {    
-                    $fOptions = '';
-                } else {
-                    $fOptions = "field_list=$options[1]&";
-                }
-                $oReturn = $rOptions.$fOptions;
-                return $oReturn;
-                break;
-            case "list":
-                if ($options[0] == NULL) {    
-                    $fOptions = '';
-                } else {
-                    $fOptions = "field_list=$options[0]&";
-                }
-                return $fOptions;
-                break;
-            /* At the moment this seems to not be needed.
-            case "detail":
-                break; 
-            */
-        }  
+    function buildOptions($options) { 
+        if ($options[0] == NULL) {    
+            $fOptions = '';
+        } else {
+            $fOptions = "field_list=$options[0]&";            
+        }
+        if ($options[1] == NULL) {  
+            $rOptions = '';            
+        } else {
+            $rOptions = "resources=$options[1]&";
+        }
+                
+        $oReturn = $rOptions.$fOptions;
+        return $oReturn;
     }
 }
 
