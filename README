@@ -9,4 +9,9 @@ http://api.comicvine.com
 
 Still under development, many things will be changed and be added. 
 
+TODO:
+Error Handling
+Limits >100
+Caching
+
 Also a proper documentation and usage examples need to be made.
