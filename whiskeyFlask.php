@@ -54,8 +54,6 @@ class whiskeyFlask {
     function getList($resource, $offset=0, $limit=100, $field_list=NULL) {
         $options = $this->buildOptions(array($field_list, NULL));
         
-        print_r($options);
-        
         $rawData = file_get_contents("$this->api_url/$resource/?api_key=$this->api_key&offset=$offset&$options&format=$this->format");
         
         if($this->format == 'json') {
@@ -72,7 +70,7 @@ class whiskeyFlask {
     function search($query, $resources=NULL, $offset=0, $limit=20, $field_list=NULL) {
         $options = $this->buildOptions(array($field_list,$resources));
         
-        $rawData = file_get_contents("$this->api_url/search/?api_key=$this->api_key&query=$query&$options&offset=$offset&format=$this->format");
+        $rawData = file_get_contents("$this->api_url/search/?api_key=$this->api_key&query=$query&offset=$offset&$options&format=$this->format");
         
         if($this->format == 'json') {
             $results = json_decode($rawData);
