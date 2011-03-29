@@ -13,12 +13,12 @@ class whiskeyFlask {
     var $format;
     
     //Build up some required settings.
-    function __construct($site, $key, $format='json') {        
+    function __construct($site, $key, $format='json', $callback=NULL) {        
 	   $this->api_key = $key;
        
         //Switch our API url depending on what API we are using.
         switch($site) {
-            case "cv":
+            case 'cv':
                 $this->api_url = 'http://api.comicvine.com';
                 break;
             default:
@@ -27,8 +27,11 @@ class whiskeyFlask {
 
         //Define how we want our results returned with either XML or JSON.
         switch($format) {
-            case "xml":
+            case 'xml':
                 $this->format = 'xml';
+                break;
+            case 'jsonp':
+                $this->format = 'jsonp';
                 break;
             default:
                 $this->format = 'json';
@@ -40,12 +43,7 @@ class whiskeyFlask {
     function getDetail($resource, $id, $field_list=NULL) {
         $rawData = file_get_contents("$this->api_url/$resource/$id/?api_key=$this->api_key&field_list=$field_list&format=$this->format");
 
-        if($this->format == 'json') {
-            $result = json_decode($rawData);
-        }
-        elseif ($this->format == 'xml') {
-            $result = simplexml_load_string($rawData);
-        }
+        $results = $this->parseResponse($rawData);
         
         return $result;
     }
@@ -56,12 +54,7 @@ class whiskeyFlask {
         
         $rawData = file_get_contents("$this->api_url/$resource/?api_key=$this->api_key&offset=$offset&$options&format=$this->format");
         
-        if($this->format == 'json') {
-            $results = json_decode($rawData);
-        }
-        elseif ($this->format == 'xml') {
-            $results = simplexml_load_string($rawData);
-        }
+        $results = $this->parseResponse($rawData);
         
         return $results;
     }
@@ -72,12 +65,7 @@ class whiskeyFlask {
         
         $rawData = file_get_contents("$this->api_url/search/?api_key=$this->api_key&query=$query&offset=$offset&$options&format=$this->format");
         
-        if($this->format == 'json') {
-            $results = json_decode($rawData);
-        }
-        elseif ($this->format == 'xml') {
-            $results = simplexml_load_string($rawData);
-        }
+        $results = $this->parseResponse($rawData);
                 
         return $results;
     }
@@ -97,6 +85,17 @@ class whiskeyFlask {
                 
         $oReturn = $rOptions.$fOptions;
         return $oReturn;
+    }
+    
+    function parseResponse($raw) {
+        if($this->format == 'json') {
+            $parsed = json_decode($raw);
+        }
+        elseif ($this->format == 'xml') {
+            $parsed = simplexml_load_string($raw);
+        }
+        
+        return $parsed;
     }
 }
 
