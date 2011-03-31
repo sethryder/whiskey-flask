@@ -3,7 +3,6 @@
 /**
  * @author Seth Ryder
  * @name Whiskey Flask
- * @version 0.02
  */
 
 class whiskeyFlask {
@@ -43,7 +42,7 @@ class whiskeyFlask {
     function getDetail($resource, $id, $field_list=NULL) {
         $rawData = file_get_contents("$this->api_url/$resource/$id/?api_key=$this->api_key&field_list=$field_list&format=$this->format");
 
-        $results = $this->parseResponse($rawData);
+        $result = $this->parseResponse($rawData);
         
         return $result;
     }
@@ -52,7 +51,7 @@ class whiskeyFlask {
     function getList($resource, $offset=0, $limit=100, $field_list=NULL) {
         $options = $this->buildOptions(array($field_list, NULL));
         
-        $rawData = file_get_contents("$this->api_url/$resource/?api_key=$this->api_key&offset=$offset&$options&format=$this->format");
+        $rawData = file_get_contents("$this->api_url/$resource/?api_key=$this->api_key&offset=$offset&$options&limit=$limit&format=$this->format");
         
         $results = $this->parseResponse($rawData);
         
@@ -63,7 +62,7 @@ class whiskeyFlask {
     function search($query, $resources=NULL, $offset=0, $limit=20, $field_list=NULL) {
         $options = $this->buildOptions(array($field_list,$resources));
         
-        $rawData = file_get_contents("$this->api_url/search/?api_key=$this->api_key&query=$query&offset=$offset&$options&format=$this->format");
+        $rawData = file_get_contents("$this->api_url/search/?api_key=$this->api_key&query=$query&offset=$offset&$options&limit=$limit&format=$this->format");
         
         $results = $this->parseResponse($rawData);
                 
