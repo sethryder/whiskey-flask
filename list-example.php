@@ -17,7 +17,7 @@ $gb = new whiskeyFlask('gb', 'API-KEY', 'json');
 //Here we are pulling a list of franchises. We are not using any offset, have set a limit of 10, and limiting the fields to name, deck and description.
 $franchises = $gb->getList('franchises','0','10','name,deck,description');
 
-//Now pring our result.
+//Now print our result.
 print_r($franchises);
 
 ?>

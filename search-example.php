@@ -18,7 +18,7 @@ $gb = new whiskeyFlask('gb', 'API-KEY', 'json');
 //We are not limiting the field list so it is omitted.
 $search = $gb->search('star','game','0','5');
 
-//Now pring our result.
+//Now print our result.
 print_r($search);
 
 ?>

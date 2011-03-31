@@ -17,7 +17,7 @@ $gb = new whiskeyFlask('gb', 'API-KEY', 'json');
 //Here we are pulling Pac-Man (ID: 149), from the character resource. Then limit it to the name, deck, description fields.
 $game = $gb->getDetail('character','149','name,deck,description');
 
-//Now pring our result.
+//Now print our result.
 print_r($game);
 
 ?>
