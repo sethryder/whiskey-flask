@@ -39,7 +39,7 @@ class whiskeyFlask {
     }
     
     //Function used for a detail resource request.    
-    private function getDetail($resource, $id, $field_list=NULL) {
+    public function getDetail($resource, $id, $field_list=NULL) {
         $rawData = file_get_contents("$this->api_url/$resource/$id/?api_key=$this->api_key&field_list=$field_list&format=$this->format");
 
         $result = $this->parseResponse($rawData);
