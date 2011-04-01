@@ -39,7 +39,7 @@ class whiskeyFlask {
     }
     
     //Function used for a detail resource request.    
-    function getDetail($resource, $id, $field_list=NULL) {
+    private function getDetail($resource, $id, $field_list=NULL) {
         $rawData = file_get_contents("$this->api_url/$resource/$id/?api_key=$this->api_key&field_list=$field_list&format=$this->format");
 
         $result = $this->parseResponse($rawData);
@@ -48,7 +48,7 @@ class whiskeyFlask {
     }
     
     //Function used for a list resource request.
-    function getList($resource, $offset=0, $limit=100, $field_list=NULL) {
+    public function getList($resource, $offset=0, $limit=100, $field_list=NULL) {
         $options = $this->buildOptions(array($field_list, NULL));
         
         $rawData = file_get_contents("$this->api_url/$resource/?api_key=$this->api_key&offset=$offset&$options&limit=$limit&format=$this->format");
@@ -59,7 +59,7 @@ class whiskeyFlask {
     }
     
     //Function used for searching.
-    function search($query, $resources=NULL, $offset=0, $limit=20, $field_list=NULL) {
+    public function search($query, $resources=NULL, $offset=0, $limit=20, $field_list=NULL) {
         $options = $this->buildOptions(array($field_list,$resources));
         
         $rawData = file_get_contents("$this->api_url/search/?api_key=$this->api_key&query=$query&offset=$offset&$options&limit=$limit&format=$this->format");
@@ -70,7 +70,7 @@ class whiskeyFlask {
     }
     
     //This function is used to build our optons for pulls when needed. Some filters do not like to be leaved blank, which is part of the reason this is required.
-    function buildOptions($options) { 
+    private function buildOptions($options) { 
         if ($options[0] == NULL) {    
             $fOptions = '';
         } else {
@@ -86,7 +86,7 @@ class whiskeyFlask {
         return $oReturn;
     }
     
-    function parseResponse($raw) {
+    private function parseResponse($raw) {
         if($this->format == 'json') {
             $parsed = json_decode($raw);
         }
