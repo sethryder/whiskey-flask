@@ -13,6 +13,9 @@ include 'whiskeyFlask.php';
 //The second parameter takes your API Key. The third is for the response format, either JSON or XML.
 $gb = new whiskeyFlask('gb', 'API-KEY', 'json');
 
+//Enable caching. We must have a /cache folder and it must be writable by the server.
+$gb->enableCache();
+
 //You use getDetail to pull the detailed information you need.
 //Here we are pulling Pac-Man (ID: 149), from the character resource. Then limit it to the name, deck, description fields.
 $game = $gb->getDetail('character','149','name,deck,description');
